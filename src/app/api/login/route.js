@@ -18,8 +18,7 @@ export async function POST(req) {
       });
     }
 
-    const hashPassword = await hash(checkUser.password, 12);
-    const checkPassword = await compare(password, hashPassword);
+    const checkPassword = await compare(password, checkUser.password);
 
     if (!checkPassword) {
       return NextResponse.json({
