@@ -1,10 +1,12 @@
 "use client";
 
+// Navbar with smooth scroll navigation and a fixed bottom nav for mobile
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "../../../assets/logo.png";
 import { Link as LinkScroll, scroller } from "react-scroll";
 
+// Section IDs must match the `id` props of the corresponding page sections
 const menuItems = [
   {
     id: "home",
@@ -28,9 +30,11 @@ const menuItems = [
   },
 ];
 
+// Renders nav links with active underline animation via CSS classes
 function CreateMenus({ activeLink, getMenuItems, setActiveLink }) {
   return getMenuItems.map((item) => (
     <LinkScroll
+      key={item.id}
       activeClass="active"
       to={item.id}
       spy={true}
@@ -52,6 +56,7 @@ export default function Navbar() {
   const [activeLink, setActiveLink] = useState("home");
   const [scrollActive, setScrollActive] = useState(false);
 
+  // Add shadow to header once the user scrolls down
   useEffect(() => {
     window.addEventListener("scroll", () => {
       setScrollActive(window.screenY > 20);
@@ -73,6 +78,7 @@ export default function Navbar() {
                 width={120}
                 height={100}
                 style={{ width: "100%", height: "auto" }}
+                loading="eager"
               />
             </div>
           </div>

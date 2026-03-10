@@ -1,6 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Global styles — Tailwind v4 with custom design tokens and component overrides */
+@import "tailwindcss";
+
+/* Design tokens (replaces tailwind.config.js theme.extend) */
+@theme {
+  --color-black-900: #000000;
+  --color-black-500: #4F5665;
+  --color-black-600: #0B132A;
+  --color-orange-100: #FFECEC;
+  --color-orange-500: #F53855;
+  --color-green-500: #2FAB73;
+  --color-green-main: #0DB760;
+  --color-white-300: #F8F8F8;
+  --color-white-500: #fff;
+  --color-gray-100: #EEEFF2;
+  --color-gray-400: #AFB5C0;
+  --color-gray-500: #DDDDDD;
+}
 
 html {
   font-family: "Rubik", sans-serif;
@@ -11,6 +26,7 @@ body {
 p {
   color:  #000000
 }
+/* Sliding underline animation used by navbar links */
 .animation-hover:after {
   background: none repeat scroll 0 0 transparent;
   content: "";
@@ -18,9 +34,11 @@ p {
   transition: width 0.3s ease 0s, left 0.3s ease 0s;
   @apply w-0 bg-green-main left-1/2 block bottom-0 absolute;
 }
+/* Underline is fully visible when the link is active */
 .animation-active:after {
   @apply left-0 w-full;
 }
+/* Expand underline from centre on hover */
 .animation-hover:hover:after {
   @apply left-0 w-full;
 }
@@ -50,6 +68,7 @@ li.check:before {
   top: -0.5em;
   font-size: 400%;
 }
+/* Slick carousel dot styles */
 /* Slideshow */
 .slick-dots li {
   @apply inline-block;
@@ -62,7 +81,6 @@ li.check:before {
 }
 
 /* purgecss end ignore */
-@tailwind utilities;
 /* purgecss start ignore */
 /* purgecss end ignore */
 
@@ -89,6 +107,7 @@ body::-webkit-scrollbar-thumb {
   transform-origin: 0%;
 }
 
+/* Horizontal scrolling project card list */
 .project-wrapper{
   display: flex;
   list-style: none;

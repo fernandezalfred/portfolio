@@ -1,3 +1,7 @@
+// Centralised API service layer — all fetch calls go through these helpers
+// so the rest of the app stays decoupled from the underlying endpoints.
+
+// POST /api/<currentTab>/add
 export async function addData(currentTab,formData){
     try {
         const response = await fetch(`/api/${currentTab}/add`,{
@@ -12,10 +16,11 @@ export async function addData(currentTab,formData){
         return result;
 
     } catch (e) {
-        console.log(e);
+        console.log(e);      
     } 
 }
 
+// GET /api/<currentTab>/get
 export async function getData(currentTab){
     try {
         const response = await fetch(`/api/${currentTab}/get`,{
@@ -30,6 +35,7 @@ export async function getData(currentTab){
     }
 }
 
+// PUT /api/<currentTab>/update
 export async function updateData(currentTab,formData){
     try {
         const response = await fetch(`/api/${currentTab}/update`,{
@@ -48,6 +54,7 @@ export async function updateData(currentTab,formData){
     } 
 }
 
+// POST /api/login — authenticates the admin user
 export async function login(formData){
     try {
         const response = await fetch(`/api/login`,{
@@ -66,6 +73,7 @@ export async function login(formData){
     } 
 }
 
+// POST /api/register — creates a new admin account
 export async function register(formData){
     try {
         const response = await fetch(`/api/register`,{
@@ -84,6 +92,7 @@ export async function register(formData){
     }
 }
 
+// DELETE /api/education/delete — removes an education entry by id
 export async function handleDelete(id) {
     try {
         const res = await fetch(`/api/education/delete`,{

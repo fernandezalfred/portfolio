@@ -1,5 +1,6 @@
 "use client";
 
+// Hero section: heading, summary, social links, and a draggable profile image
 import { useMemo, useRef } from "react";
 import AnimationWrapper from "../animation-wrapper";
 import { motion } from "framer-motion";
@@ -12,6 +13,7 @@ import {
 import Image from "next/image";
 import home from "../../../assets/home.png";
 
+// Spring animation: slides content up from below when it enters the viewport
 function variants() {
   return {
     offscreen: {
@@ -29,6 +31,7 @@ function variants() {
   };
 }
 
+// Social icon entries; add href links here when social URLs are available
 const socialIcons = [
   {
     id: "facebook",
@@ -60,9 +63,9 @@ const socialIcons = [
 ];
 
 export default function ClientHomeView({ data }) {
-  console.log(data, "ClientHomeView");
-
+  // Memoised so the variants object reference stays stable across re-renders
   const setVariants = useMemo(() => variants(), []);
+  // containerRef constrains the drag area of the profile image
   const containerRef = useRef(null);
 
   return (
@@ -74,6 +77,7 @@ export default function ClientHomeView({ data }) {
         >
           <div className="flex flex-col justify-center items-start row-start-2 sm:row-start-1">
             <h1 className="mb-6 text-4xl lg:text-5xl xl:text-6xl font-bold leading-snug ">
+              {/* Words at index 2 and 3 are highlighted in green */}
               {data && data.length
                 ? data[0]?.heading.split(" ").map((item, index) => (
                     <span
@@ -128,6 +132,7 @@ export default function ClientHomeView({ data }) {
                 height={300}
                 className="absolute top-[-15px] rounded-lg"
                 style={{ width: "100%", height: "auto" }}
+                loading="eager"
               />
             </motion.div>
           </motion.div>

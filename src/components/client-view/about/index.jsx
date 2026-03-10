@@ -1,10 +1,13 @@
 "use client";
+
+// About section: displays stats, a heading, a profile image, and a skill grid
 import { useMemo, useRef } from "react";
 import AnimationWrapper from "../animation-wrapper";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import about from "../../../assets/about.png";
 
+// Spring animation: slides content up from below when it enters the viewport
 function variants() {
   return {
     offscreen: {
@@ -22,6 +25,7 @@ function variants() {
   };
 }
 
+// Each skill badge fades in and slides up individually
 const skillItemVariant = {
   hidden: { y: 20, opacity: 0 },
   visible: {
@@ -31,10 +35,10 @@ const skillItemVariant = {
 };
 
 export default function ClientAboutView({ data }) {
-  console.log(data, "ClientAboutView");
-
+  // Memoised so the variants object reference stays stable across re-renders
   const setVariants = useMemo(() => variants(), []);
 
+  // Stats displayed at the top of the section; fall back to "0" when data is missing
   const aboutDataInfo = [
     {
       label: "Client",
@@ -50,6 +54,7 @@ export default function ClientAboutView({ data }) {
     },
   ];
 
+  // Word at index 5 ("Project") is highlighted in green
   const headingText = "Why Hire Me For Your Next Project";
 
   return (
@@ -113,7 +118,7 @@ export default function ClientAboutView({ data }) {
               quality={100}
               heigh={414}
               width={508}
-              style={{ width: "100%", height: "auto" }}
+              loading="eager"
             />
           </motion.div>
         </AnimationWrapper>
