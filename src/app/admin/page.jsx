@@ -173,7 +173,7 @@ export default function AdminPage() {
         </button>
       </nav>
       <div className="mt-10 p-10">
-        {menuItems.map((item) => item.id === currentTab && item.component)}
+        {menuItems.map((item) => item.id === currentTab && <div key={item.id}>{item.component}</div>)}
       </div>
     </div>
   );

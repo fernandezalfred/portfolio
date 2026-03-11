@@ -1,23 +1,13 @@
 "use client";
 
-import FormControls from "@/components/admin-view/form-controls";
-import { register } from "@/services";
+import FormInput from "@/components/ui/FormInput";
+import { register } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const controls = [
-  {
-    name: "username",
-    placeholder: "Enter User Name",
-    type: "text",
-    label: "Enter User Name",
-  },
-  {
-    name: "password",
-    placeholder: "Enter Password",
-    type: "password",
-    label: "Enter Password",
-  },
+  { name: "username", placeholder: "Enter User Name", type: "text", label: "Enter User Name" },
+  { name: "password", placeholder: "Enter Password", type: "password", label: "Enter Password" },
 ];
 
 const initialFormData = { username: "", password: "" };
@@ -30,7 +20,6 @@ export default function RegisterPage() {
   async function handleRegister() {
     setError("");
     const res = await register(formData);
-
     if (res?.success) {
       router.push("/admin");
     } else {
@@ -43,15 +32,9 @@ export default function RegisterPage() {
       <div className="w-full max-w-md bg-slate-400 shadow-lg rounded-lg px-8 pt-6 pb-8">
         <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
 
-        <FormControls
-          controls={controls}
-          formData={formData}
-          setFormData={setFormData}
-        />
+        <FormInput controls={controls} formData={formData} setFormData={setFormData} />
 
-        {error && (
-          <p className="text-red-700 text-sm font-semibold mt-2">{error}</p>
-        )}
+        {error && <p className="text-red-700 text-sm font-semibold mt-2">{error}</p>}
 
         <button
           onClick={handleRegister}
@@ -62,10 +45,7 @@ export default function RegisterPage() {
 
         <p className="text-center mt-4 text-sm">
           Already have an account?{" "}
-          <a
-            href="/admin"
-            className="text-blue-800 font-semibold hover:underline"
-          >
+          <a href="/admin" className="text-blue-800 font-semibold hover:underline">
             Login
           </a>
         </p>
