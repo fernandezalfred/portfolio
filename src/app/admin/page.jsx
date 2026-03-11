@@ -1,99 +1,51 @@
 "use client";
-import AdminAboutView from "@/components/admin-view/about";
-import AdminContactView from "@/components/admin-view/contact";
-import AdminEducationView from "@/components/admin-view/education";
-import AdminExperienceView from "@/components/admin-view/experience";
-import AdminHomeView from "@/components/admin-view/home";
-import Login from "@/components/admin-view/login";
-import AdminProjectView from "@/components/admin-view/project";
-import { addData, getData, login, updateData } from "@/services";
+
+import AboutEditor from "@/components/admin/AboutEditor";
+import ContactList from "@/components/admin/ContactList";
+import EducationEditor from "@/components/admin/EducationEditor";
+import ExperienceEditor from "@/components/admin/ExperienceEditor";
+import HomeEditor from "@/components/admin/HomeEditor";
+import ProjectEditor from "@/components/admin/ProjectEditor";
+import { addData, getData, updateData } from "@/services/api";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-const initialHomeFormData = {
-  heading: "",
-  summary: "",
-};
+const initialHomeFormData = { heading: "", summary: "" };
+const initialAboutFormData = { aboutme: "", noofprojects: "", yearofexerience: "", noofclients: "", skills: "" };
+const initialExperienceFormData = { position: "", company: "", duration: "", location: "", jobprofile: "" };
+const initialEducationFormData = { degree: "", year: "", college: "" };
+const initialProjectFormData = { name: "", website: "", technologies: "", github: "" };
 
-const initialAboutFormData = {
-  aboutme: "",
-  noofprojects: "",
-  yearofexerience: "",
-  noofclients: "",
-  skills: "",
-};
-const initialExperienceFormData = {
-  position: "",
-  company: "",
-  duration: "",
-  location: "",
-  jobprofile: "",
-};
-const initialEducationFormData = {
-  degree: "",
-  year: "",
-  college: "",
-};
-const initialProjectFormData = {
-  name: "",
-  website: "",
-  technologies: "",
-  github: "",
-};
-const initialLoginFormData = {
-  username: "",
-  password: "",
-};
-
-export default function AdminView() {
-  const [currentSeletedTab, setCurrentSeletedTab] = useState("home");
-  const [homeViewFormData, setHomeViewFormData] = useState(initialHomeFormData);
-  const [aboutViewFormData, setAboutViewFormData] =
-    useState(initialAboutFormData);
-  const [experinceViewFormData, setExperinceViewFormData] = useState(
-    initialExperienceFormData,
-  );
-  const [educationViewFormData, setEducationViewFormData] = useState(
-    initialEducationFormData,
-  );
-  const [projectViewFormData, setProjectViewFormData] = useState(
-    initialProjectFormData,
-  );
-
+export default function AdminPage() {
+  const [currentTab, setCurrentTab] = useState("home");
+  const [homeFormData, setHomeFormData] = useState(initialHomeFormData);
+  const [aboutFormData, setAboutFormData] = useState(initialAboutFormData);
+  const [experienceFormData, setExperienceFormData] = useState(initialExperienceFormData);
+  const [educationFormData, setEducationFormData] = useState(initialEducationFormData);
+  const [projectFormData, setProjectFormData] = useState(initialProjectFormData);
   const [allData, setAllData] = useState({});
   const [update, setUpdate] = useState(false);
   const [authUser, setAuthUser] = useState(false);
-  const [loginFormData, setLoginFormData] = useState(initialLoginFormData);
+  const router = useRouter();
 
-  const menuItem = [
+  const menuItems = [
     {
       id: "home",
-      lable: "Home",
-      component: (
-        <AdminHomeView
-          formData={homeViewFormData}
-          setFormData={setHomeViewFormData}
-          handleSaveData={handleSaveData}
-        />
-      ),
+      label: "Home",
+      component: <HomeEditor formData={homeFormData} setFormData={setHomeFormData} handleSaveData={handleSaveData} />,
     },
     {
       id: "about",
-      lable: "About Page",
-      component: (
-        <AdminAboutView
-          formData={aboutViewFormData}
-          setFormData={setAboutViewFormData}
-          handleSaveData={handleSaveData}
-        />
-      ),
+      label: "About Page",
+      component: <AboutEditor formData={aboutFormData} setFormData={setAboutFormData} handleSaveData={handleSaveData} />,
     },
     {
       id: "experience",
-      lable: "Experience",
+      label: "Experience",
       component: (
-        <AdminExperienceView
-          formData={experinceViewFormData}
-          setFormData={setExperinceViewFormData}
+        <ExperienceEditor
+          formData={experienceFormData}
+          setFormData={setExperienceFormData}
           handleSaveData={handleSaveData}
           data={allData?.experience}
         />
@@ -101,11 +53,11 @@ export default function AdminView() {
     },
     {
       id: "education",
-      lable: "Education",
+      label: "Education",
       component: (
-        <AdminEducationView
-          formData={educationViewFormData}
-          setFormData={setEducationViewFormData}
+        <EducationEditor
+          formData={educationFormData}
+          setFormData={setEducationFormData}
           handleSaveData={handleSaveData}
           data={allData?.education}
           setAllData={setAllData}
@@ -113,132 +65,107 @@ export default function AdminView() {
       ),
     },
     {
-      id: "project",
-      lable: "Project",
+      id: "projects",
+      label: "Projects",
       component: (
-        <AdminProjectView
-          formData={projectViewFormData}
-          setFormData={setProjectViewFormData}
+        <ProjectEditor
+          formData={projectFormData}
+          setFormData={setProjectFormData}
           handleSaveData={handleSaveData}
-          data={allData?.project}
+          data={allData?.projects}
         />
       ),
     },
     {
       id: "contact",
-      lable: "Contact",
-      component: <AdminContactView data={allData && allData?.contact} />,
+      label: "Contact",
+      component: <ContactList data={allData?.contact} />,
     },
   ];
 
   async function handleSaveData() {
     const dataMap = {
-      home: homeViewFormData,
-      about: aboutViewFormData,
-      experience: experinceViewFormData,
-      education: educationViewFormData,
-      project: projectViewFormData,
+      home: homeFormData,
+      about: aboutFormData,
+      experience: experienceFormData,
+      education: educationFormData,
+      projects: projectFormData,
     };
 
     const response = update
-      ? await updateData(currentSeletedTab, dataMap[currentSeletedTab])
-      : await addData(currentSeletedTab, dataMap[currentSeletedTab]);
-    console.log(response, "response");
+      ? await updateData(currentTab, dataMap[currentTab])
+      : await addData(currentTab, dataMap[currentTab]);
 
-    if (response.success) {
-      resetFormDatas();
-      extractAllDatas();
+    if (response?.success) {
+      resetFormData();
+      fetchAllData();
     }
   }
 
   useEffect(() => {
-    extractAllDatas();
-  }, [currentSeletedTab]);
+    fetchAllData();
+  }, [currentTab]);
 
-  async function extractAllDatas() {
-    const response = await getData(currentSeletedTab);
+  async function fetchAllData() {
+    const response = await getData(currentTab);
 
-    if (
-      currentSeletedTab === "home" &&
-      response &&
-      response.data &&
-      response.data.length
-    ) {
-      setHomeViewFormData(response && response.data[0]);
+    if (currentTab === "home" && response?.data?.length) {
+      setHomeFormData(response.data[0]);
       setUpdate(true);
     }
 
-    if (
-      currentSeletedTab === "about" &&
-      response &&
-      response.data &&
-      response.data.length
-    ) {
-      setAboutViewFormData(response && response.data[0]);
+    if (currentTab === "about" && response?.data?.length) {
+      setAboutFormData(response.data[0]);
       setUpdate(true);
     }
 
     if (response?.success) {
-      setAllData({
-        ...allData,
-        [currentSeletedTab]: response && response.data,
-      });
+      setAllData((prev) => ({ ...prev, [currentTab]: response.data }));
     }
   }
 
-  function resetFormDatas() {
-    setHomeViewFormData(initialHomeFormData);
-    setAboutViewFormData(initialAboutFormData);
-    setExperinceViewFormData(initialExperienceFormData);
-    setEducationViewFormData(initialEducationFormData);
-    setProjectViewFormData(initialProjectFormData);
-  }
-
-  async function handleLogin() {
-    const res = await login(loginFormData);
-    console.log(res, "login");
-
-    if (res?.success) {
-      setAuthUser(true);
-      sessionStorage.setItem("authUser", JSON.stringify(true));
-    }
+  function resetFormData() {
+    setHomeFormData(initialHomeFormData);
+    setAboutFormData(initialAboutFormData);
+    setExperienceFormData(initialExperienceFormData);
+    setEducationFormData(initialEducationFormData);
+    setProjectFormData(initialProjectFormData);
   }
 
   useEffect(() => {
-    setAuthUser(JSON.parse(sessionStorage.getItem("authUser")));
+    const isAuth = JSON.parse(sessionStorage.getItem("authUser"));
+    if (!isAuth) {
+      // Redirect unauthenticated users to the login page
+      router.push("/login");
+    } else {
+      setAuthUser(true);
+    }
   }, []);
 
-  if (!authUser)
-    return (
-      <Login
-        formData={loginFormData}
-        setFormData={setLoginFormData}
-        handleLogin={handleLogin}
-      />
-    );
+  // Don't render the dashboard until auth is confirmed
+  if (!authUser) return null;
 
   return (
     <div className="border-b border-gray-400">
       <nav className="-mb-0.5 flex justify-center space-x-6" role="tablist">
-        {menuItem.map((item) => (
+        {menuItems.map((item) => (
           <button
             key={item.id}
             type="button"
             className="p-4 font-bold text-xl text-black"
             onClick={() => {
-              setCurrentSeletedTab(item.id);
-              resetFormDatas();
+              setCurrentTab(item.id);
+              resetFormData();
               setUpdate(false);
             }}
           >
-            {item.lable}
+            {item.label}
           </button>
         ))}
-
         <button
           onClick={() => {
-            setAuthUser(false);
             sessionStorage.removeItem("authUser");
+            router.push("/login");
           }}
           className="p-4 font-bold text-xl text-black"
         >
@@ -246,9 +173,7 @@ export default function AdminView() {
         </button>
       </nav>
       <div className="mt-10 p-10">
-        {menuItem.map(
-          (item) => item.id === currentSeletedTab && item.component,
-        )}
+        {menuItems.map((item) => item.id === currentTab && item.component)}
       </div>
     </div>
   );
