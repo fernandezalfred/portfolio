@@ -62,9 +62,9 @@ export async function register(formData: Record<string, string>): Promise<any> {
   }
 }
 
-export async function deleteEducation(id: string): Promise<any> {
+export async function deleteData(resource: string, id: string): Promise<any> {
   try {
-    const res = await fetch(`/api/education/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/${resource}/${id}`, { method: "DELETE" });
     return res.json();
   } catch (e) {
     console.error("Error deleting item", e);

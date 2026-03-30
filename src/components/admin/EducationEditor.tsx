@@ -1,6 +1,6 @@
 'use client'
 
-import { deleteEducation } from "@/services/api"
+import { deleteData } from "@/services/api"
 import FormInput from "@/components/ui/FormInput"
 
 interface EducationItem {
@@ -21,14 +21,14 @@ interface EducationEditorProps {
 }
 
 const controls = [
-  { name: 'degree', placeholder: 'Degree Name', type: 'text', label: 'Degree Name' },
-  { name: 'year', placeholder: 'Year', type: 'text', label: 'Year' },
-  { name: 'college', placeholder: 'College Name', type: 'text', label: 'College Name' },
+  { name: 'degree', placeholder: 'e.g. B.Sc. Computer Science', type: 'text', label: 'Degree Name' },
+  { name: 'year', placeholder: 'e.g. 2019 – 2023', type: 'text', label: 'Year' },
+  { name: 'college', placeholder: 'e.g. MIT', type: 'text', label: 'College / University' },
 ]
 
 export default function EducationEditor({ formData, setFormData, handleSaveData, data, setAllData }: EducationEditorProps) {
   const handleDeleteItem = async (id: string) => {
-    const response = await deleteEducation(id)
+    const response = await deleteData('education', id)
     if (response.success) {
       const updatedData = data?.filter((item) => item._id !== id) ?? []
       setAllData((prevData) => ({ ...prevData, education: updatedData }))
@@ -38,37 +38,54 @@ export default function EducationEditor({ formData, setFormData, handleSaveData,
   }
 
   return (
-    <div className="w-full">
-      <div className="bg-[#d7d7d7] shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div className="mb-10 space-y-6">
-          {data && data.length ? (
-            data.map((item) => (
-              <div key={item._id} className="bg-[#ffffff] flex flex-col gap-2 p-6 rounded-lg shadow-md border border-green-600 hover:border-green-800 transition duration-300">
-                <p className="text-lg font-semibold text-gray-700">Degree: {item.degree}</p>
-                <p className="text-lg text-gray-700">Year: {item.year}</p>
-                <p className="text-lg text-gray-700">College: {item.college}</p>
-                <div className="flex gap-2">
+    <div className="space-y-6">
+      {/* Existing entries */}
+      <div>
+        <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+          Existing Entries ({data?.length ?? 0})
+        </h3>
+        {data && data.length ? (
+          <div className="space-y-3">
+            {data.map((item) => (
+              <div
+                key={item._id}
+                className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:border-gray-300 transition-colors"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="font-semibold text-gray-900">{item.degree}</p>
+                    <p className="text-blue-600 text-sm font-medium mt-0.5">{item.college}</p>
+                    <p className="text-gray-500 text-sm mt-1">{item.year}</p>
+                  </div>
                   <button
                     onClick={() => handleDeleteItem(item._id)}
-                    className="bg-red-500 text-white-500 p-2 rounded"
+                    className="shrink-0 px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-medium rounded-lg transition-colors border border-red-200"
                   >
                     Delete
                   </button>
                 </div>
               </div>
-            ))
-          ) : (
-            <p className="text-center text-gray-600">No education data available</p>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-gray-400 text-sm py-6 text-center bg-white border border-dashed border-gray-200 rounded-xl">
+            No education entries yet
+          </p>
+        )}
+      </div>
 
+      {/* Add new form */}
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+        <h3 className="text-base font-semibold text-gray-800 mb-5">Add New Education</h3>
         <FormInput controls={controls} formData={formData} setFormData={setFormData} />
-        <button
-          onClick={() => handleSaveData('education')}
-          className="mt-[5px] border border-blue-600 bg-blue-600 text-white p-3 font-bold text-[16px] focus:bg-green-800 rounded-md"
-        >
-          Add Education
-        </button>
+        <div className="mt-5 pt-4 border-t border-gray-100 flex justify-end">
+          <button
+            onClick={() => handleSaveData('education')}
+            className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-sm rounded-lg transition-colors"
+          >
+            Add Education
+          </button>
+        </div>
       </div>
     </div>
   )
