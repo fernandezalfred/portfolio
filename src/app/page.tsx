@@ -21,10 +21,14 @@ export default async function Home() {
   const educationSectionData = await fetchSection("education");
   const projectSectionData = await fetchSection("projects");
 
+  const aboutData = aboutSectionData?.length
+    ? { ...aboutSectionData[0], noofprojects: String(projectSectionData?.length ?? 0) }
+    : null;
+
   return (
     <div>
       <HomeSection data={homeSectionData} />
-      <AboutSection data={aboutSectionData && aboutSectionData.length ? aboutSectionData[0] : null} />
+      <AboutSection data={aboutData} />
       <ExperienceSection educationData={educationSectionData} experienceData={experienceSectionData} />
       <ProjectSection data={projectSectionData} />
       <ContactSection />

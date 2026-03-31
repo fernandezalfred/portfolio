@@ -1,7 +1,5 @@
-/* Global styles — Tailwind v4 with custom design tokens and component overrides */
 @import "tailwindcss";
 
-/* Design tokens (replaces tailwind.config.js theme.extend) */
 @theme {
   --color-black-900: #000000;
   --color-black-500: #4F5665;
@@ -11,7 +9,7 @@
   --color-green-500: #2FAB73;
   --color-green-main: #0DB760;
   --color-white-300: #F8F8F8;
-  --color-white-500: #fff;
+  --color-white-500: #ffffff;
   --color-gray-100: #EEEFF2;
   --color-gray-400: #AFB5C0;
   --color-gray-500: #DDDDDD;
@@ -20,11 +18,13 @@
 html {
   font-family: "Rubik", sans-serif;
 }
+
 body {
-  background: bg-white-500
+  background-color: var(--color-white-500);
 }
+
 p {
-  color:  #000000
+  color: var(--color-black-900);
 }
 /* Sliding underline animation used by navbar links */
 .animation-hover:after {
@@ -84,52 +84,6 @@ li.check:before {
 /* purgecss start ignore */
 /* purgecss end ignore */
 
-body::-webkit-scrollbar {
-  width: 5px;
-}
- 
-body::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
- 
-body::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
-}
-
-.progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 10px;
-  background: var(--red);
-  transform-origin: 0%;
-}
-
-/* Horizontal scrolling project card list */
-.project-wrapper{
-  display: flex;
-  list-style: none;
-  height: 350px;
-  overflow-x: scroll;
-  padding: 20px 0;
-  flex: 0 0 600px;
-}
-
-.project-wrapper li {
-  flex: 0 0 300px;
-  margin: 0 20px 0 0;
-}
-
-.project-wrapper li:last-of-type {
-  margin: 0;
-}
-
-.bg {
-  stroke: #fff;
-  opacity: 0.3;
-}
 
 ::-webkit-scrollbar {
   height: 5px;
@@ -139,32 +93,12 @@ body::-webkit-scrollbar-thumb {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: green;
+  background: rgba(47, 171, 115, 0.6);
   -webkit-border-radius: 1ex;
 }
 
 ::-webkit-scrollbar-corner {
   background: #fff3;
-}
-
-#progress {
-
-  transform: rotate(-90deg);
-}
-
-circle {
-  stroke-dashoffset: 0;
-  stroke-width: 15%;
-  fill: none;
-}
-
-.bg {
-  stroke: blue;
-  opacity: 0.3;
-}
-
-#progress .indicator {
-  stroke: red;
 }
 
 .MuiTimelineItem-root::before{

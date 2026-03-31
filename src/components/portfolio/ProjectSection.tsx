@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef } from "react";
 import AnimationWrapper from "@/components/ui/AnimationWrapper";
-import { motion, useScroll } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 interface ProjectData {
   _id: string;
@@ -18,85 +17,89 @@ interface ProjectSectionProps {
   data: ProjectData[] | null;
 }
 
-export default function ProjectSection({ data }: ProjectSectionProps) {
-  const containerRef = useRef<HTMLUListElement>(null);
-  const { scrollXProgress } = useScroll({ container: containerRef });
-  const router = useRouter();
+// Each card slides up and fades in when it enters the viewport
+const cardVariants = {
+  offscreen: { y: 40, opacity: 0 },
+  onscreen:  { y: 0,  opacity: 1, transition: { type: "spring", duration: 0.8 } },
+};
 
+export default function ProjectSection({ data }: ProjectSectionProps) {
   return (
     <div
       className="max-w-screen-xl mt-24 mb-6 sm:mt-14 sm:mb-14 px-6 sm:px-8 mx-auto"
       id="project"
     >
+      {/* Section heading */}
       <AnimationWrapper className="py-6 sm:py-16">
-        <div className="flex flex-col justify-center items-center row-start-2 sm:row-start-1">
-          <h1 className="leading-[70px] mb-4 text-3xl lg:text-4xl xl:text-5xl font-bold">
-            {"My Projects".split(" ").map((item, index) => (
-              <span key={index} className={`${index === 1 ? "text-green-main" : "text-[#000]"}`}>
-                {item}{" "}
-              </span>
-            ))}
+        <div className="flex flex-col items-center">
+          <h1 className="leading-tight mb-2 text-3xl lg:text-4xl xl:text-5xl font-bold">
+            My <span className="text-green-main">Projects</span>
           </h1>
-          <svg id="progress" width={100} height={100} viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="30" pathLength="1" className="stroke-[#000]" />
-            <motion.circle
-              cx="50"
-              cy="50"
-              r="30"
-              pathLength="1"
-              className="stroke-green-main"
-              style={{ pathLength: scrollXProgress }}
-            />
-          </svg>
+          <p className="text-gray-500 mt-2 mb-8 text-center max-w-xl">
+            A selection of things I&apos;ve built
+          </p>
         </div>
       </AnimationWrapper>
 
+      {/* Project cards grid */}
       <AnimationWrapper>
-        <ul className="project-wrapper" ref={containerRef}>
-          {data && data.length
-            ? data.map((item) => (
-                <li key={item._id} className="w-full flex items-stretch cursor-pointer">
-                  <div className="border-2 w-full relative border-green-main transition-all rounded-lg flex flex-col">
-                    <div className="flex p-4 flex-col xl:flex-row w-full items-stretch xl:items-center">
-                      <div className="flex order-2 xl:order-1">
-                        <div className="flex flex-col">
-                          <h3 className="text-3xl text-black-600 capitalize font-bold">{item.name}</h3>
-                          <p className="text-sm mt-2 text-black-500 capitalize font-bold">
-                            {item.createdAt.split("T")[0]}
-                          </p>
-                          <div className="grid gap-2 mt-5 grid-cols-2 h-full max-h-[200px] w-full">
-                            {item?.technologies.split(",").map((techItem, i) => (
-                              <div key={i} className="w-full flex justify-start items-center">
-                                <button className="whitespace-nowrap text-ellipsis overflow-hidden py-3 w-[120px] px-6 border-[2px] border-green-main bg-[#fff] text-[#000] font-semibold rounded-lg text-xs tracking-widest hover:shadow-green-main transition-all outline-none">
-                                  {techItem}
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="absolute w-full bottom-0 justify-center flex gap-2">
-                      <button
-                        onClick={() => router.push(item.website)}
-                        className="p-2 text-white-300 font-semibold text-[14px] tracking-widest bg-green-main transition-all outline-none"
-                      >
-                        Website
-                      </button>
-                      <button
-                        onClick={() => router.push(item.github)}
-                        className="p-2 text-white-300 font-semibold text-[14px] tracking-widest bg-green-main transition-all outline-none"
-                      >
-                        Github
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))
-            : null}
-        </ul>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {data?.map((project) => (
+            <ProjectCard key={project._id} project={project} />
+          ))}
+        </div>
       </AnimationWrapper>
     </div>
+  );
+}
+
+function ProjectCard({ project }: { project: ProjectData }) {
+  const dateLabel = project.createdAt.split("T")[0];
+  const technologies = project.technologies.split(",").map((t) => t.trim());
+
+  return (
+    <motion.div
+      variants={cardVariants}
+      className="border border-gray-200 rounded-xl p-5 flex flex-col gap-4 bg-white shadow-sm hover:shadow-md hover:border-green-main transition-all duration-300"
+    >
+      {/* Project name, date, and tech tags */}
+      <div className="flex-1">
+        <h3 className="text-xl text-black capitalize font-bold mb-1">{project.name}</h3>
+        <p className="text-xs text-gray-400 mb-4">{dateLabel}</p>
+
+        <div className="flex flex-wrap gap-2">
+          {technologies.map((tech) => (
+            <span
+              key={tech}
+              className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 font-medium"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Links to live demo and source code */}
+      <div className="flex gap-3 pt-2 border-t border-gray-100">
+        <a
+          href={project.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 text-sm font-semibold text-green-main hover:opacity-75 transition-opacity"
+        >
+          <FaExternalLinkAlt className="w-3 h-3" />
+          Live Demo
+        </a>
+        <a
+          href={project.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-green-main transition-colors"
+        >
+          <FaGithub className="w-4 h-4" />
+          Source
+        </a>
+      </div>
+    </motion.div>
   );
 }
