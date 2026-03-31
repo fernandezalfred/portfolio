@@ -11,7 +11,7 @@ interface ProjectItem {
   github: string;
 }
 
-type AllData = Record<string, Array<Record<string, string>>>;
+type AllData = Record<string, unknown[]>;
 
 interface ProjectEditorProps {
   formData: Record<string, string>;

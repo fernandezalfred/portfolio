@@ -12,7 +12,7 @@ interface ExperienceItem {
   jobprofile: string;
 }
 
-type AllData = Record<string, Array<Record<string, string>>>;
+type AllData = Record<string, unknown[]>;
 
 interface ExperienceEditorProps {
   formData: Record<string, string>;

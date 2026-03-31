@@ -24,7 +24,7 @@ const fadeUpVariants = {
   onscreen: ({ duration = 2 } = {}) => ({
     y: 0,
     opacity: 1,
-    transition: { type: "spring", duration },
+    transition: { type: "spring" as const, duration },
   }),
 };
 
@@ -34,7 +34,7 @@ const socialIconVariants = {
   animate:  { rotate: 360, scale: 1 },
   hover:    { scale: 1.1, rotate: 360 },
   tap:      { scale: 0.9, rotate: -360, borderRadius: "100%" },
-  transition: { type: "spring", damping: 10, stiffness: 100, duration: 1.5 },
+  transition: { type: "spring" as const, damping: 10, stiffness: 100, duration: 1.5 },
 };
 
 const SOCIAL_ICONS = [

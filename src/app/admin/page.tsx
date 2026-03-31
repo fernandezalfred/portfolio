@@ -71,7 +71,7 @@ function AdminPageContent() {
     experience: <ExperienceEditor formData={experienceFormData} setFormData={setExperienceFormData} handleSaveData={handleSaveData} data={allData?.experience as any} setAllData={setAllData} />,
     education: <EducationEditor formData={educationFormData} setFormData={setEducationFormData} handleSaveData={handleSaveData} data={allData?.education as any} setAllData={setAllData} />,
     projects: <ProjectEditor formData={projectFormData} setFormData={setProjectFormData} handleSaveData={handleSaveData} data={allData?.projects as any} setAllData={setAllData} />,
-    contact: <ContactList data={allData?.contact as any} />,
+    contact: <ContactList data={allData?.contact as any} setAllData={setAllData} />,
   };
 
   const currentNavLabel = NAV_ITEMS.find((item) => item.id === currentTab)?.label ?? currentTab;

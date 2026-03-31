@@ -3,7 +3,7 @@
 import { addData, getData, updateData } from "@/services/api";
 import { useEffect, useState } from "react";
 
-type AllData = Record<string, Array<Record<string, string>>>;
+type AllData = Record<string, unknown[]>;
 
 const initialHomeFormData = { heading: "", summary: "" };
 const initialAboutFormData = { aboutme: "", noofprojects: "", yearofexerience: "", noofclients: "", skills: "" };

@@ -20,7 +20,7 @@ interface ProjectSectionProps {
 // Each card slides up and fades in when it enters the viewport
 const cardVariants = {
   offscreen: { y: 40, opacity: 0 },
-  onscreen:  { y: 0,  opacity: 1, transition: { type: "spring", duration: 0.8 } },
+  onscreen:  { y: 0,  opacity: 1, transition: { type: "spring" as const, duration: 0.8 } },
 };
 
 export default function ProjectSection({ data }: ProjectSectionProps) {

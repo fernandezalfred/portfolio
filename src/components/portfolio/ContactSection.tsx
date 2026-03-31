@@ -29,7 +29,7 @@ export default function ContactSection() {
   }, [messageSent]);
 
   async function handleSubmit() {
-    const res = await addData("contact", formData);
+    const res = await addData("contact", formData as unknown as Record<string, unknown>);
     if (res?.success) {
       setFormData(EMPTY_FORM);
       setMessageSent(true);

@@ -10,7 +10,7 @@ interface EducationItem {
   college: string;
 }
 
-type AllData = Record<string, Array<Record<string, string>>>;
+type AllData = Record<string, unknown[]>;
 
 interface EducationEditorProps {
   formData: Record<string, string>;
