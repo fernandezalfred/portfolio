@@ -18,20 +18,20 @@ export default async function Home() {
   const homeSectionData = await fetchSection("home");
   const aboutSectionData = await fetchSection("about");
   const experienceSectionData = await fetchSection("experience");
-  const educationSectionData = await fetchSection("education");
   const projectSectionData = await fetchSection("projects");
 
-  const aboutData = aboutSectionData?.length
-    ? { ...aboutSectionData[0], noofprojects: String(projectSectionData?.length ?? 0) }
-    : null;
+  const aboutData = aboutSectionData?.length ? aboutSectionData[0] : null;
 
   return (
-    <div>
+    <main>
       <HomeSection data={homeSectionData} />
       <AboutSection data={aboutData} />
-      <ExperienceSection educationData={educationSectionData} experienceData={experienceSectionData} />
+      <ExperienceSection experienceText={experienceSectionData?.[0]?.text ?? null} />
       <ProjectSection data={projectSectionData} />
       <ContactSection />
-    </div>
+      <footer className="border-t border-gray-100 py-6 text-center text-sm text-gray-400">
+        © {new Date().getFullYear()} Alfredo Fernandez. All rights reserved.
+      </footer>
+    </main>
   );
 }

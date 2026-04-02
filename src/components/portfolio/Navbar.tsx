@@ -37,7 +37,7 @@ function NavLinks({ items, activeId, onSelect }: NavLinksProps) {
         to={item.id}
         spy={true}
         smooth={true}
-        duration={1000}
+        duration={300}
         onClick={() => onSelect(item.id)}
         onSetActive={() => onSelect(item.id)}
         className={`
@@ -73,7 +73,7 @@ export default function Navbar() {
   }, []);
 
   function scrollToContact() {
-    scroller.scrollTo("contact", { duration: 1500, delay: 100, smooth: true });
+    scroller.scrollTo("contact", { duration: 300, smooth: true });
   }
 
   return (
@@ -90,9 +90,9 @@ export default function Navbar() {
               src={logo}
               alt="Logo"
               quality={100}
-              width={120}
-              height={100}
-              style={{ width: "100%", height: "auto" }}
+              width={100}
+              height={36}
+              className="w-24 h-auto"
               loading="eager"
             />
           </div>
@@ -113,9 +113,9 @@ export default function Navbar() {
       </header>
 
       {/* Mobile bottom navigation bar */}
-      <nav className="fixed lg:hidden bottom-0 left-0 right-0 z-20 px-4 sm:px-8 border-t border-gray-100 shadow-lg">
-        <div className="bg-white/90 backdrop-blur-md sm:px-3">
-          <ul className="overflow-x-auto flex w-full justify-between items-center text-black">
+      <nav className="fixed lg:hidden bottom-4 left-1/2 -translate-x-1/2 z-20 w-[calc(100%-2rem)] max-w-sm">
+        <div className="bg-white/95 backdrop-blur-md border border-gray-200 rounded-2xl shadow-xl px-2">
+          <ul className="flex w-full justify-between items-center">
             <NavLinks items={NAV_ITEMS} activeId={activeId} onSelect={setActiveId} />
           </ul>
         </div>

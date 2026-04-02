@@ -5,6 +5,10 @@ import { ObjectId } from "mongodb";
 
 export const dynamic = "force-dynamic";
 
+function errorMessage(e: unknown): string {
+  return e instanceof Error ? e.message : "Unexpected server error";
+}
+
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -14,7 +18,7 @@ export async function DELETE(
     const { id } = await params;
 
     if (!ObjectId.isValid(id)) {
-      return NextResponse.json({ success: false, message: "Invalid id provided" });
+      return NextResponse.json({ success: false, message: "Invalid ID format" }, { status: 400 });
     }
 
     const result = await Project.deleteOne({ _id: new ObjectId(id) });
@@ -22,9 +26,9 @@ export async function DELETE(
     if (result.deletedCount === 1) {
       return NextResponse.json({ success: true, message: "Project deleted successfully" });
     }
-    return NextResponse.json({ success: false, message: "Project not found or already deleted" });
+    return NextResponse.json({ success: false, message: "Project not found or already deleted" }, { status: 404 });
   } catch (e) {
     console.error(e);
-    return NextResponse.json({ success: false, message: "Something went wrong" });
+    return NextResponse.json({ success: false, message: errorMessage(e) }, { status: 500 });
   }
 }

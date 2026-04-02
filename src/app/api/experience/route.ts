@@ -4,6 +4,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
+function errorMessage(e: unknown): string {
+  return e instanceof Error ? e.message : "Unexpected server error";
+}
+
 export async function GET(): Promise<NextResponse> {
   try {
     await connectToDB();
@@ -11,7 +15,7 @@ export async function GET(): Promise<NextResponse> {
     return NextResponse.json({ success: true, data });
   } catch (e) {
     console.error(e);
-    return NextResponse.json({ success: false, message: "Something went wrong" });
+    return NextResponse.json({ success: false, message: errorMessage(e) }, { status: 500 });
   }
 }
 
@@ -21,9 +25,26 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const body = await req.json();
     const saved = await Experience.create(body);
     if (saved) return NextResponse.json({ success: true, message: "Data saved successfully" });
-    return NextResponse.json({ success: false, message: "Something went wrong" });
+    return NextResponse.json({ success: false, message: "Failed to save data" }, { status: 500 });
   } catch (e) {
     console.error(e);
-    return NextResponse.json({ success: false, message: "Something went wrong" });
+    return NextResponse.json({ success: false, message: errorMessage(e) }, { status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest): Promise<NextResponse> {
+  try {
+    await connectToDB();
+    const body = await req.json();
+    const existing = await Experience.findOne({});
+    if (existing) {
+      await Experience.findByIdAndUpdate(existing._id, body);
+    } else {
+      await Experience.create(body);
+    }
+    return NextResponse.json({ success: true, message: "Data updated successfully" });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json({ success: false, message: errorMessage(e) }, { status: 500 });
   }
 }

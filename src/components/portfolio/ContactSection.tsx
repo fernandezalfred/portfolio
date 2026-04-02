@@ -20,6 +20,7 @@ const INPUT_CLASS =
 export default function ContactSection() {
   const [formData, setFormData]         = useState<ContactFormData>(EMPTY_FORM);
   const [messageSent, setMessageSent]   = useState(false);
+  const [submitError, setSubmitError]   = useState<string | null>(null);
 
   // Hide the success banner after 3 seconds
   useEffect(() => {
@@ -29,10 +30,13 @@ export default function ContactSection() {
   }, [messageSent]);
 
   async function handleSubmit() {
+    setSubmitError(null);
     const res = await addData("contact", formData as unknown as Record<string, unknown>);
     if (res?.success) {
       setFormData(EMPTY_FORM);
       setMessageSent(true);
+    } else {
+      setSubmitError(res?.message ?? "Failed to send message. Please try again.");
     }
   }
 
@@ -44,20 +48,24 @@ export default function ContactSection() {
     formData.name !== "" && formData.email !== "" && formData.message !== "";
 
   return (
-    <div
-      className="max-w-screen-xl mt-24 mb-6 sm:mt-14 sm:mb-20 px-6 sm:px-8 lg:px-16 mx-auto"
-      id="contact"
-    >
+    <section id="contact" className="relative py-24 sm:py-32 overflow-hidden">
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-green-main/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-16">
       {/* Section heading */}
-      <AnimationWrapper className="py-6">
-        <div className="flex flex-col items-center">
-          <h1 className="leading-tight mb-2 text-3xl lg:text-4xl xl:text-5xl font-bold">
-            Contact <span className="text-green-main">Me</span>
-          </h1>
-          <p className="text-gray-500 mt-2 mb-8 text-center max-w-md">
-            Have a project in mind or just want to say hi? Fill out the form and I&apos;ll get back to you.
-          </p>
-        </div>
+      <AnimationWrapper className="text-center mb-12">
+        <p className="text-green-main text-sm font-semibold uppercase tracking-widest mb-3">
+          Get In Touch
+        </p>
+        <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
+          Contact <span className="text-green-main">Me</span>
+        </h2>
+        <div className="mt-5 mx-auto w-16 h-1 rounded-full bg-green-main" />
+        <p className="text-gray-500 mt-5 text-lg max-w-md mx-auto">
+          Have a project in mind or just want to say hi? Fill out the form and I&apos;ll get back to you.
+        </p>
       </AnimationWrapper>
 
       {/* Contact form card */}
@@ -104,6 +112,16 @@ export default function ContactSection() {
             />
           </div>
 
+          {/* Error banner */}
+          {submitError && (
+            <div className="flex items-center gap-2 text-sm font-medium text-red-700 bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+              <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 112 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z" />
+              </svg>
+              {submitError}
+            </div>
+          )}
+
           {/* Success banner shown after message is sent */}
           {messageSent && (
             <div className="flex items-center gap-2 text-sm font-medium text-green-main bg-green-50 border border-green-100 rounded-lg px-4 py-3">
@@ -121,7 +139,8 @@ export default function ContactSection() {
           </button>
         </div>
       </div>
-    </div>
+      </div>
+    </section>
   );
 }
 

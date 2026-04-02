@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from "react";
 import { deleteData } from "@/services/api";
 
 interface ContactItem {
@@ -17,17 +18,30 @@ interface ContactListProps {
 }
 
 export default function ContactList({ data, setAllData }: ContactListProps) {
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
   const handleDelete = async (id: string) => {
+    setDeleteError(null);
     const response = await deleteData("contact", id);
     if (response.success) {
       const updated = data?.filter((item) => item._id !== id) ?? [];
       setAllData((prev) => ({ ...prev, contact: updated }));
     } else {
-      console.error("Failed to delete contact", response.message);
+      setDeleteError(response?.message ?? "Failed to delete contact");
     }
   };
 
   if (!data || !data.length) {
+    if (deleteError) {
+      return (
+        <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+          <svg className="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 112 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z" />
+          </svg>
+          {deleteError}
+        </div>
+      );
+    }
     return (
       <p className="text-gray-400 text-sm py-10 text-center bg-white border border-dashed border-gray-200 rounded-xl">
         No contact messages yet
@@ -37,6 +51,14 @@ export default function ContactList({ data, setAllData }: ContactListProps) {
 
   return (
     <div className="space-y-4">
+      {deleteError && (
+        <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+          <svg className="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 112 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z" />
+          </svg>
+          {deleteError}
+        </div>
+      )}
       <p className="text-sm text-gray-500">{data.length} message{data.length !== 1 ? "s" : ""}</p>
       {data.map((item) => (
         <div

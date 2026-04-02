@@ -1,125 +1,94 @@
 "use client";
 
-import {
-  Timeline,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
-  TimelineItem,
-  TimelineSeparator,
-} from "@mui/lab";
 import AnimationWrapper from "@/components/ui/AnimationWrapper";
-import { motion } from "framer-motion";
-
-interface ExperienceData {
-  _id: string;
-  position: string;
-  company: string;
-  duration: string;
-  location: string;
-  jobprofile: string;
-}
-
-interface EducationData {
-  _id: string;
-  degree: string;
-  year: string;
-  college: string;
-}
 
 interface ExperienceSectionProps {
-  experienceData: ExperienceData[] | null;
-  educationData: EducationData[] | null;
+  experienceText: string | null;
 }
 
-export default function ExperienceSection({ educationData, experienceData }: ExperienceSectionProps) {
+export default function ExperienceSection({ experienceText }: ExperienceSectionProps) {
   return (
-    <div
-      className="max-w-screen-xl mt-24 mb-6 sm:mt-14 sm:mb-14 px-6 sm:px-8 lg:px-16 mx-auto"
-      id="experience"
-    >
-      <div className="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-2 gap-8">
-        <div className="flex flex-col gap-5">
-          <AnimationWrapper className="py-6 sm:py-16">
-            <div className="flex flex-col justify-center items-center row-start-2 sm:row-start-1">
-              <h1 className="leading-[70px] mb-4 text-3xl lg:text-4xl xl:text-5xl font-bold">
-                {"My Experience".split(" ").map((item, index) => (
-                  <span key={index} className={`${index === 1 ? "text-green-main" : "text-[#000]"}`}>
-                    {" "}{item}{" "}
-                  </span>
-                ))}
-              </h1>
-            </div>
-          </AnimationWrapper>
-
-          <AnimationWrapper>
-            <div className="flex w-full">
-              <motion.div className="container">
-                <Timeline position="right">
-                  {experienceData && experienceData.length
-                    ? experienceData.map((item, i) => (
-                        <TimelineItem key={i}>
-                          <TimelineSeparator>
-                            <TimelineDot className="bg-green-main" />
-                            <TimelineConnector className="bg-green-main" />
-                          </TimelineSeparator>
-                          <TimelineContent>
-                            <div className="border-[2px] p-4 rounded-[8px] border-green-main mt-[14px] ml-[16px]">
-                              <p className="font-bold">{item.duration}</p>
-                              <p className="font-extrabold mt-2">{item.company}, {item.location}</p>
-                              <p className="font-extrabold mt-2">{item.position}</p>
-                              <p className="font-bold mt-2">{item.jobprofile}</p>
-                            </div>
-                          </TimelineContent>
-                        </TimelineItem>
-                      ))
-                    : null}
-                </Timeline>
-              </motion.div>
-            </div>
-          </AnimationWrapper>
-        </div>
-
-        <div className="flex flex-col gap-5">
-          <AnimationWrapper className="py-6 sm:py-16">
-            <div className="flex flex-col justify-center items-center row-start-2 sm:row-start-1">
-              <h1 className="leading-[70px] mb-4 text-3xl lg:text-4xl xl:text-5xl font-bold">
-                {"My Education".split(" ").map((item, index) => (
-                  <span key={index} className={`${index === 1 ? "text-green-main" : "text-[#000]"}`}>
-                    {" "}{item}{" "}
-                  </span>
-                ))}
-              </h1>
-            </div>
-          </AnimationWrapper>
-
-          <AnimationWrapper>
-            <div className="flex w-full">
-              <motion.div className="container">
-                <Timeline position="right">
-                  {educationData && educationData.length
-                    ? educationData.map((item, i) => (
-                        <TimelineItem key={i}>
-                          <TimelineSeparator>
-                            <TimelineDot className="bg-green-main" />
-                            <TimelineConnector className="bg-green-main" />
-                          </TimelineSeparator>
-                          <TimelineContent>
-                            <div className="border-[2px] p-4 rounded-[8px] border-green-main mt-[14px] ml-[16px]">
-                              <p className="font-bold">Year: {item.year}</p>
-                              <p className="font-extrabold mt-2">College: {item.college}</p>
-                              <p className="font-bold mt-2">Degree: {item.degree}</p>
-                            </div>
-                          </TimelineContent>
-                        </TimelineItem>
-                      ))
-                    : null}
-                </Timeline>
-              </motion.div>
-            </div>
-          </AnimationWrapper>
-        </div>
+    <section id="experience" className="relative py-24 sm:py-32 overflow-hidden">
+      {/* Subtle background decoration */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-green-main/5 rounded-full blur-3xl" />
       </div>
-    </div>
+
+      <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-16">
+        {/* Heading */}
+        <AnimationWrapper className="text-center mb-16">
+          <p className="text-green-main text-sm font-semibold uppercase tracking-widest mb-3">
+            Professional Background
+          </p>
+          <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
+            My{" "}
+            <span className="text-green-main">Experience</span>
+          </h2>
+          <div className="mt-5 mx-auto w-16 h-1 rounded-full bg-green-main" />
+        </AnimationWrapper>
+
+        {/* Card */}
+        {experienceText && (
+          <AnimationWrapper>
+            <div className="relative bg-white rounded-2xl shadow-xl border border-gray-100 px-8 py-10 sm:px-14 sm:py-14">
+              {/* Decorative quote mark */}
+              <span
+                aria-hidden="true"
+                className="absolute top-6 left-8 text-[8rem] leading-none font-serif text-green-main/10 select-none pointer-events-none"
+              >
+                &ldquo;
+              </span>
+
+              {/* Brief icon row */}
+              <div className="flex items-center gap-3 mb-8">
+                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-green-main/10">
+                  <BriefcaseIcon />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">Alfredo Fernandez</p>
+                  <p className="text-xs text-gray-400">Web Developer &amp; Designer</p>
+                </div>
+              </div>
+
+              <p className="relative text-gray-600 text-lg sm:text-xl leading-relaxed z-10">
+                {experienceText}
+              </p>
+
+              {/* Bottom accent line */}
+              <div className="mt-10 pt-8 border-t border-gray-100 flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-green-main" />
+                <div className="w-8 h-0.5 bg-green-main/40" />
+                <p className="text-xs text-gray-400 font-medium uppercase tracking-widest">
+                  Freelance &amp; Personal Projects
+                </p>
+              </div>
+            </div>
+          </AnimationWrapper>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function BriefcaseIcon() {
+  return (
+    <svg
+      className="w-5 h-5 text-green-main"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"
+      />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"
+      />
+    </svg>
   );
 }

@@ -16,7 +16,7 @@
 }
 
 html {
-  font-family: "Rubik", sans-serif;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -80,9 +80,6 @@ li.check:before {
   @apply bg-orange-500 rounded-l-full rounded-r-full w-12;
 }
 
-/* purgecss end ignore */
-/* purgecss start ignore */
-/* purgecss end ignore */
 
 
 ::-webkit-scrollbar {
@@ -101,15 +98,4 @@ li.check:before {
   background: #fff3;
 }
 
-.MuiTimelineItem-root::before{
-  flex: 0 !important;
-}
-
-.MuiTimelineDot-root{
-  background-color: rgba(47, 171, 115, 1) !important;
-}
-
-.MuiTimelineConnector-root{
-  background-color: rgba(47, 171, 115, 1) !important;
-}
 

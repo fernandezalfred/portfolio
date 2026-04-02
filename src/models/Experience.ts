@@ -1,20 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface IExperience extends Document {
-  position: string;
-  company: string;
-  duration: string;
-  location: string;
-  jobprofile: string;
+  text: string;
 }
 
 const ExperienceSchema = new Schema<IExperience>(
   {
-    position: String,
-    company: String,
-    duration: String,
-    location: String,
-    jobprofile: String,
+    text: String,
   },
   { timestamps: true }
 );

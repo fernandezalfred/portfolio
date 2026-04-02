@@ -1,28 +1,39 @@
 "use client";
 
 import { addData, getData, updateData } from "@/services/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type AllData = Record<string, unknown[]>;
 
+export interface Notification {
+  type: "success" | "error";
+  message: string;
+}
+
 const initialHomeFormData = { heading: "", summary: "" };
 const initialAboutFormData = { aboutme: "", noofprojects: "", yearofexerience: "", noofclients: "", skills: "" };
-const initialExperienceFormData = { position: "", company: "", duration: "", location: "", jobprofile: "" };
-const initialEducationFormData = { degree: "", year: "", college: "" };
+const initialExperienceFormData = { text: "" };
 const initialProjectFormData = { name: "", website: "", technologies: "", github: "" };
 
 export function useAdminData(currentTab: string) {
   const [homeFormData, setHomeFormData] = useState<Record<string, string>>(initialHomeFormData);
   const [aboutFormData, setAboutFormData] = useState<Record<string, string>>(initialAboutFormData);
   const [experienceFormData, setExperienceFormData] = useState<Record<string, string>>(initialExperienceFormData);
-  const [educationFormData, setEducationFormData] = useState<Record<string, string>>(initialEducationFormData);
   const [projectFormData, setProjectFormData] = useState<Record<string, string>>(initialProjectFormData);
   const [allData, setAllData] = useState<AllData>({});
   const [update, setUpdate] = useState(false);
+  const [notification, setNotification] = useState<Notification | null>(null);
+  const notifTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     fetchAllData();
   }, [currentTab]);
+
+  function showNotification(type: "success" | "error", message: string) {
+    if (notifTimer.current) clearTimeout(notifTimer.current);
+    setNotification({ type, message });
+    notifTimer.current = setTimeout(() => setNotification(null), 4000);
+  }
 
   async function fetchAllData() {
     const response = await getData(currentTab);
@@ -37,27 +48,34 @@ export function useAdminData(currentTab: string) {
       setUpdate(true);
     }
 
+    if (currentTab === "experience" && response?.data?.length) {
+      setExperienceFormData(response.data[0]);
+      setUpdate(true);
+    }
+
     if (response?.success) {
       setAllData((prev) => ({ ...prev, [currentTab]: response.data }));
     }
   }
 
-  async function handleSaveData() {
+  async function handleSaveData(resource: string) {
     const dataMap: Record<string, Record<string, string>> = {
       home: homeFormData,
       about: aboutFormData,
       experience: experienceFormData,
-      education: educationFormData,
       projects: projectFormData,
     };
 
     const response = update
-      ? await updateData(currentTab, dataMap[currentTab])
-      : await addData(currentTab, dataMap[currentTab]);
+      ? await updateData(resource, dataMap[resource])
+      : await addData(resource, dataMap[resource]);
 
     if (response?.success) {
+      showNotification("success", response.message ?? "Saved successfully");
       resetFormData();
       fetchAllData();
+    } else {
+      showNotification("error", response?.message ?? "An unknown error occurred");
     }
   }
 
@@ -65,7 +83,6 @@ export function useAdminData(currentTab: string) {
     setHomeFormData(initialHomeFormData);
     setAboutFormData(initialAboutFormData);
     setExperienceFormData(initialExperienceFormData);
-    setEducationFormData(initialEducationFormData);
     setProjectFormData(initialProjectFormData);
     setUpdate(false);
   }
@@ -74,10 +91,10 @@ export function useAdminData(currentTab: string) {
     homeFormData, setHomeFormData,
     aboutFormData, setAboutFormData,
     experienceFormData, setExperienceFormData,
-    educationFormData, setEducationFormData,
     projectFormData, setProjectFormData,
     allData, setAllData,
     handleSaveData,
     resetFormData,
+    notification,
   };
 }

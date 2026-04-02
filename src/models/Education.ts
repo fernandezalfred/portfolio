@@ -1,16 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface IEducation extends Document {
-  degree: string;
-  year: string;
-  college: string;
+  text: string;
 }
 
 const EducationSchema = new Schema<IEducation>(
   {
-    degree: String,
-    year: String,
-    college: String,
+    text: String,
   },
   { timestamps: true }
 );
