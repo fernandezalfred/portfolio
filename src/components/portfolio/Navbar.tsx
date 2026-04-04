@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 import { Link as ScrollLink, scroller } from "react-scroll";
+import { motion } from "framer-motion";
 
 interface NavItem {
   id: string;
@@ -47,6 +48,13 @@ function NavLinks({ items, activeId, onSelect }: NavLinksProps) {
             : "text-black font-bold hover:text-green-main"}
         `}
       >
+        {isActive && (
+          <motion.span
+            layoutId="navPill"
+            className="absolute inset-0 bg-green-main/10 rounded-full -z-10"
+            transition={{ type: "spring", stiffness: 380, damping: 32 }}
+          />
+        )}
         {item.label}
       </ScrollLink>
     );

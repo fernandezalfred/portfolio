@@ -12,7 +12,7 @@ export default function AnimationWrapper({ children, className, ...props }: Anim
     <motion.div
       initial="offscreen"
       whileInView="onscreen"
-      viewport={{ once: true, amount: 0.15 }}
+      viewport={{ once: false, amount: 0.15 }}
       className={className}
       {...props}
     >

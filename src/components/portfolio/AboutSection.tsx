@@ -101,7 +101,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
               <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-100">
                 <Image
                   src={about}
-                  alt="About illustration"
+                  alt="Alfredo Fernandez - About Me"
                   quality={100}
                   height={414}
                   width={508}

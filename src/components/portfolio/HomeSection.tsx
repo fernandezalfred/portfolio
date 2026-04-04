@@ -146,7 +146,7 @@ export default function HomeSection({ data }: HomeSectionProps) {
                 <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-2xl overflow-hidden bg-green-main shadow-2xl">
                   <Image
                     src={home}
-                    alt="Profile photo"
+                    alt="Alfredo Fernandez - Full Stack Web Developer & Designer"
                     quality={100}
                     fill
                     className="object-cover object-top"
