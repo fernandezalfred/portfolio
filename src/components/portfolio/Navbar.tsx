@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
-import logo from "@/assets/logo.png";
+import Logo from "@/components/ui/Logo";
 import { Link as ScrollLink, scroller } from "react-scroll";
 import { motion } from "framer-motion";
 
@@ -66,17 +65,21 @@ export default function Navbar() {
   const [hasScrolled, setHasScrolled] = useState(false);
 
   useEffect(() => {
-    function handleScroll() {
-      setHasScrolled(window.scrollY > 20);
+    let ticking = false;
 
-      // Activate "contact" when the user reaches the bottom of the page,
-      // since the spy never fires for the last section.
-      const atBottom =
-        window.innerHeight + window.scrollY >= document.body.scrollHeight - BOTTOM_THRESHOLD;
-      if (atBottom) setActiveId("contact");
+    function handleScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setHasScrolled(window.scrollY > 20);
+        const atBottom =
+          window.innerHeight + window.scrollY >= document.body.scrollHeight - BOTTOM_THRESHOLD;
+        if (atBottom) setActiveId("contact");
+        ticking = false;
+      });
     }
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -94,15 +97,7 @@ export default function Navbar() {
       >
         <nav className="max-w-screen-xl px-6 sm:px-8 lg:px-16 mx-auto grid grid-flow-col py-3 sm:py-4">
           <div className="col-start-1 col-end-2 flex items-center">
-            <Image
-              src={logo}
-              alt="Logo"
-              quality={100}
-              width={100}
-              height={36}
-              className="w-24 h-auto"
-              loading="eager"
-            />
+            <Logo />
           </div>
 
           <ul className="hidden lg:flex col-start-4 col-end-8 items-center">

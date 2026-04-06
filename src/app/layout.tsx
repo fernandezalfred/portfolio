@@ -3,14 +3,15 @@ import { Rubik } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/ui/Layout";
 
-const rubik = Rubik({ subsets: ["latin"], variable: "--font-rubik" });
+const rubik = Rubik({ subsets: ["latin"], variable: "--font-rubik", display: "swap" });
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://alfredofernandez.dev";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ?? "https://fernandezalfred.dev";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: "Alfredo Fernandez — Full Stack Web Developer & Designer",
+    default: "Alfredo Fernandez — Full Stack Web Developer",
     template: "%s | Alfredo Fernandez",
   },
   description:
@@ -25,21 +26,20 @@ export const metadata: Metadata = {
     "MongoDB",
     "TypeScript",
     "Frontend Developer",
-    "Portfolio",
   ],
   authors: [{ name: "Alfredo Fernandez", url: BASE_URL }],
   creator: "Alfredo Fernandez",
   openGraph: {
     type: "website",
     url: BASE_URL,
-    title: "Alfredo Fernandez — Full Stack Web Developer & Designer",
+    title: "Alfredo Fernandez — Full Stack Web Developer",
     description:
       "Full Stack Web Developer & Designer specializing in React, Next.js, Node.js, and MongoDB. Available for freelance projects and full-time roles.",
     siteName: "Alfredo Fernandez Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Alfredo Fernandez — Full Stack Web Developer & Designer",
+    title: "Alfredo Fernandez — Full Stack Web Developer",
     description:
       "Full Stack Web Developer & Designer specializing in React, Next.js, Node.js, and MongoDB.",
     creator: "@alfredofernandez",
@@ -61,8 +61,15 @@ const jsonLd = {
   url: BASE_URL,
   jobTitle: "Full Stack Web Developer & Designer",
   description:
-    "Full Stack Web Developer & Designer specializing in React, Next.js, Node.js, and MongoDB.",
-  knowsAbout: ["React", "Next.js", "Node.js", "MongoDB", "TypeScript", "Web Design"],
+    "Full Stack Web Developer specializing in React, Next.js, Node.js, and MongoDB.",
+  knowsAbout: [
+    "React",
+    "Next.js",
+    "Node.js",
+    "MongoDB",
+    "TypeScript",
+    "Web Design",
+  ],
   sameAs: [],
 };
 

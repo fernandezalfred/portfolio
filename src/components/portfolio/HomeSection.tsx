@@ -147,10 +147,10 @@ export default function HomeSection({ data }: HomeSectionProps) {
                   <Image
                     src={home}
                     alt="Alfredo Fernandez - Full Stack Web Developer & Designer"
-                    quality={100}
+                    quality={85}
                     fill
+                    priority
                     className="object-cover object-top"
-                    loading="eager"
                   />
                 </div>
                 {/* Drag hint badge */}
@@ -163,17 +163,12 @@ export default function HomeSection({ data }: HomeSectionProps) {
         </AnimationWrapper>
 
         {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-gray-400"
-        >
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-gray-400 animate-bounce">
           <p className="text-xs uppercase tracking-widest font-medium">Scroll</p>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
           </svg>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

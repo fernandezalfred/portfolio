@@ -8,17 +8,20 @@ async function fetchSection(section: string): Promise<any[]> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
   const res = await fetch(`${baseUrl}/api/${section}`, {
     method: "GET",
-    cache: "no-store",
+    next: { revalidate: 60 },
   });
   const data = await res.json();
   return data?.data;
 }
 
 export default async function Home() {
-  const homeSectionData = await fetchSection("home");
-  const aboutSectionData = await fetchSection("about");
-  const experienceSectionData = await fetchSection("experience");
-  const projectSectionData = await fetchSection("projects");
+  const [homeSectionData, aboutSectionData, experienceSectionData, projectSectionData] =
+    await Promise.all([
+      fetchSection("home"),
+      fetchSection("about"),
+      fetchSection("experience"),
+      fetchSection("projects"),
+    ]);
 
   const aboutData = aboutSectionData?.length ? aboutSectionData[0] : null;
 
