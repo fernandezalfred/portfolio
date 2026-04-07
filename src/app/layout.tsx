@@ -3,7 +3,11 @@ import { Rubik } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/ui/Layout";
 
-const rubik = Rubik({ subsets: ["latin"], variable: "--font-rubik", display: "swap" });
+const rubik = Rubik({
+  subsets: ["latin"],
+  variable: "--font-rubik",
+  display: "swap",
+});
 
 const rawBase =
   process.env.NEXT_PUBLIC_BASE_URL ?? "https://fernandezalfred.dev";
