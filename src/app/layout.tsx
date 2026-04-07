@@ -5,8 +5,9 @@ import Layout from "@/components/ui/Layout";
 
 const rubik = Rubik({ subsets: ["latin"], variable: "--font-rubik", display: "swap" });
 
-const BASE_URL =
+const rawBase =
   process.env.NEXT_PUBLIC_BASE_URL ?? "https://fernandezalfred.dev";
+const BASE_URL = rawBase.startsWith("http") ? rawBase : `https://${rawBase}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
