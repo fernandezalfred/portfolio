@@ -5,7 +5,8 @@ import HomeSection from "@/components/portfolio/HomeSection";
 import ProjectSection from "@/components/portfolio/ProjectSection";
 
 async function fetchSection(section: string): Promise<any[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+  const raw = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+  const baseUrl = raw.startsWith("http") ? raw : `https://${raw}`;
   const res = await fetch(`${baseUrl}/api/${section}`, {
     method: "GET",
     next: { revalidate: 60 },
