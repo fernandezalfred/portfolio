@@ -3,7 +3,12 @@
 import { useRef } from "react";
 import AnimationWrapper from "@/components/ui/AnimationWrapper";
 import { motion } from "framer-motion";
-import { FaFacebookF, FaLinkedinIn, FaInstagram, FaTwitter } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaLinkedinIn,
+  FaInstagram,
+  FaTwitter,
+} from "react-icons/fa";
 import { scroller } from "react-scroll";
 import Image from "next/image";
 import home from "@/assets/home.png";
@@ -28,18 +33,18 @@ const fadeUpVariants = {
 };
 
 const socialIconVariants = {
-  initial:    { scale: 0, opacity: 0 },
-  animate:    { scale: 1, opacity: 1 },
-  hover:      { scale: 1.15, y: -2 },
-  tap:        { scale: 0.9 },
+  initial: { scale: 0, opacity: 0 },
+  animate: { scale: 1, opacity: 1 },
+  hover: { scale: 1.15, y: -2 },
+  tap: { scale: 0.9 },
   transition: { type: "spring" as const, damping: 12, stiffness: 200 },
 };
 
 const SOCIAL_ICONS = [
-  { id: "facebook",  Icon: FaFacebookF,  href: "#" },
-  { id: "twitter",   Icon: FaTwitter,    href: "#" },
-  { id: "linkedin",  Icon: FaLinkedinIn, href: "#" },
-  { id: "instagram", Icon: FaInstagram,  href: "#" },
+  // { id: "facebook",  Icon: FaFacebookF,  href: "#" },
+  { id: "twitter", Icon: FaTwitter, href: "https://x.com/addier94" },
+  { id: "linkedin", Icon: FaLinkedinIn, href: "https://www.linkedin.com/in/addier94" },
+  // { id: "instagram", Icon: FaInstagram,  href: "#" },
 ];
 
 export default function HomeSection({ data }: HomeSectionProps) {
@@ -49,7 +54,10 @@ export default function HomeSection({ data }: HomeSectionProps) {
   const summary = data?.[0]?.summary ?? "";
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center overflow-hidden"
+    >
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute -top-32 -right-32 w-[600px] h-[600px] bg-green-main/8 rounded-full blur-3xl" />
@@ -58,7 +66,8 @@ export default function HomeSection({ data }: HomeSectionProps) {
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
-            backgroundImage: "radial-gradient(circle, #0DB760 1px, transparent 1px)",
+            backgroundImage:
+              "radial-gradient(circle, #0DB760 1px, transparent 1px)",
             backgroundSize: "32px 32px",
           }}
         />
@@ -92,13 +101,23 @@ export default function HomeSection({ data }: HomeSectionProps) {
               {/* CTA buttons */}
               <div className="flex flex-wrap gap-4 mb-10">
                 <button
-                  onClick={() => scroller.scrollTo("project", { duration: 300, smooth: true })}
+                  onClick={() =>
+                    scroller.scrollTo("project", {
+                      duration: 300,
+                      smooth: true,
+                    })
+                  }
                   className="py-3 px-8 bg-green-main text-white font-semibold rounded-full hover:opacity-90 hover:shadow-lg hover:shadow-green-main/30 transition-all duration-300 text-sm"
                 >
                   View My Work
                 </button>
                 <button
-                  onClick={() => scroller.scrollTo("contact", { duration: 300, smooth: true })}
+                  onClick={() =>
+                    scroller.scrollTo("contact", {
+                      duration: 300,
+                      smooth: true,
+                    })
+                  }
                   className="py-3 px-8 border-2 border-green-main text-green-main font-semibold rounded-full hover:bg-green-main hover:text-white transition-all duration-300 text-sm"
                 >
                   Hire Me
@@ -107,7 +126,9 @@ export default function HomeSection({ data }: HomeSectionProps) {
 
               {/* Social icons */}
               <div className="flex items-center gap-3">
-                <p className="text-xs text-gray-400 uppercase tracking-widest font-medium mr-1">Follow</p>
+                <p className="text-xs text-gray-400 uppercase tracking-widest font-medium mr-1">
+                  Follow
+                </p>
                 {SOCIAL_ICONS.map(({ id, Icon, href }, i) => (
                   <motion.a
                     key={id}
@@ -116,7 +137,10 @@ export default function HomeSection({ data }: HomeSectionProps) {
                     rel="noopener noreferrer"
                     initial={socialIconVariants.initial}
                     animate={socialIconVariants.animate}
-                    transition={{ ...socialIconVariants.transition, delay: 0.4 + i * 0.1 }}
+                    transition={{
+                      ...socialIconVariants.transition,
+                      delay: 0.4 + i * 0.1,
+                    }}
                     whileHover={socialIconVariants.hover}
                     whileTap={socialIconVariants.tap}
                     className="w-9 h-9 flex items-center justify-center rounded-full bg-white border border-gray-200 shadow-sm hover:border-green-main hover:shadow-md transition-all duration-200"
@@ -164,9 +188,21 @@ export default function HomeSection({ data }: HomeSectionProps) {
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-gray-400 animate-bounce">
-          <p className="text-xs uppercase tracking-widest font-medium">Scroll</p>
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          <p className="text-xs uppercase tracking-widest font-medium">
+            Scroll
+          </p>
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </div>
       </div>
@@ -183,7 +219,11 @@ function Heading({ text }: { text: string }) {
       {words.map((word, index) => (
         <span
           key={index}
-          className={HIGHLIGHTED_INDICES.includes(index) ? "text-green-main" : "text-gray-900"}
+          className={
+            HIGHLIGHTED_INDICES.includes(index)
+              ? "text-green-main"
+              : "text-gray-900"
+          }
         >
           {word}{" "}
         </span>
