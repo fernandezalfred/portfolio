@@ -8,6 +8,7 @@ interface ContactItem {
   name: string;
   email: string;
   message: string;
+  createdAt?: string;
 }
 
 type AllData = Record<string, unknown[]>;
@@ -65,24 +66,29 @@ export default function ContactList({ data, setAllData }: ContactListProps) {
           key={item._id}
           className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:border-gray-300 transition-colors"
         >
-          <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3">
-            <p className="font-semibold text-gray-900">{item.name}</p>
-            <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+            <div className="flex flex-col gap-1 min-w-0">
+              <p className="font-semibold text-gray-900">{item.name}</p>
               <a
                 href={`mailto:${item.email}`}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                className="text-blue-600 hover:text-blue-700 text-sm font-medium break-all"
               >
                 {item.email}
               </a>
-              <button
-                onClick={() => handleDelete(item._id)}
-                className="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-medium rounded-lg transition-colors border border-red-200"
-              >
-                Delete
-              </button>
+              {item.createdAt && (
+                <p className="text-xs text-gray-400">
+                  {new Date(item.createdAt).toLocaleString()}
+                </p>
+              )}
             </div>
+            <button
+              onClick={() => handleDelete(item._id)}
+              className="shrink-0 px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-medium rounded-lg transition-colors border border-red-200"
+            >
+              Delete
+            </button>
           </div>
-          <p className="text-gray-600 text-sm leading-relaxed">{item.message}</p>
+          <p className="text-gray-600 text-sm leading-relaxed border-t border-gray-100 pt-3">{item.message}</p>
         </div>
       ))}
     </div>

@@ -8,6 +8,7 @@ import {
   FaLinkedinIn,
   FaInstagram,
   FaTwitter,
+  FaGithub,
 } from "react-icons/fa";
 import { scroller } from "react-scroll";
 import Image from "next/image";
@@ -44,6 +45,7 @@ const SOCIAL_ICONS = [
   // { id: "facebook",  Icon: FaFacebookF,  href: "#" },
   { id: "twitter", Icon: FaTwitter, href: "https://x.com/addier94" },
   { id: "linkedin", Icon: FaLinkedinIn, href: "https://www.linkedin.com/in/addier94" },
+  { id: "github", Icon: FaGithub, href: "https://github.com/fernandezalfred" },
   // { id: "instagram", Icon: FaInstagram,  href: "#" },
 ];
 
