@@ -40,13 +40,13 @@ export default function ProjectSection({ data }: ProjectSectionProps) {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-green-main/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-16">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-16">
         {/* Heading */}
         <AnimationWrapper className="text-center mb-14">
           <p className="text-green-main text-sm font-semibold uppercase tracking-widest mb-3">
             Portfolio
           </p>
-          <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
             My <span className="text-green-main">Projects</span>
           </h2>
           <div className="mt-5 mx-auto w-16 h-1 rounded-full bg-green-main" />

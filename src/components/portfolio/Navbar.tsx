@@ -26,9 +26,10 @@ interface NavLinksProps {
   items: NavItem[];
   activeId: string;
   onSelect: (id: string) => void;
+  compact?: boolean;
 }
 
-function NavLinks({ items, activeId, onSelect }: NavLinksProps) {
+function NavLinks({ items, activeId, onSelect, compact = false }: NavLinksProps) {
   return items.map((item) => {
     const isActive = activeId === item.id;
     return (
@@ -41,7 +42,8 @@ function NavLinks({ items, activeId, onSelect }: NavLinksProps) {
         onClick={() => onSelect(item.id)}
         onSetActive={() => onSelect(item.id)}
         className={`
-          px-4 py-2 mx-2 cursor-pointer animation-hover inline-block relative
+          ${compact ? "px-1.5 py-2 text-xs tracking-tight" : "px-4 py-2 mx-2"}
+          cursor-pointer animation-hover inline-block relative
           ${isActive
             ? "text-green-main animation-active"
             : "text-black font-bold hover:text-green-main"}
@@ -119,7 +121,7 @@ export default function Navbar() {
       <nav className="fixed lg:hidden bottom-4 left-1/2 -translate-x-1/2 z-20 w-[calc(100%-2rem)] max-w-sm">
         <div className="bg-white/95 backdrop-blur-md border border-gray-200 rounded-2xl shadow-xl px-2">
           <ul className="flex w-full justify-between items-center">
-            <NavLinks items={NAV_ITEMS} activeId={activeId} onSelect={setActiveId} />
+            <NavLinks items={NAV_ITEMS} activeId={activeId} onSelect={setActiveId} compact />
           </ul>
         </div>
       </nav>

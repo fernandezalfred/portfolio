@@ -82,13 +82,13 @@ export default function ContactSection() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-green-main/5 rounded-full blur-3xl" />
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-16">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-16">
         {/* Section heading */}
         <AnimationWrapper className="text-center mb-12">
           <p className="text-green-main text-sm font-semibold uppercase tracking-widest mb-3">
             Get In Touch
           </p>
-          <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight">
             Contact <span className="text-green-main">Me</span>
           </h2>
           <div className="mt-5 mx-auto w-16 h-1 rounded-full bg-green-main" />
@@ -100,7 +100,7 @@ export default function ContactSection() {
 
         {/* Contact form card */}
         <div className="max-w-2xl mx-auto">
-          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-8 flex flex-col gap-4">
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sm:p-8 flex flex-col gap-4">
             {/* Name and email side by side on larger screens */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">

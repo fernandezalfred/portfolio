@@ -33,7 +33,7 @@ export default async function Home() {
       <ExperienceSection experienceText={experienceSectionData?.[0]?.text ?? null} />
       <ProjectSection data={projectSectionData} />
       <ContactSection />
-      <footer className="border-t border-gray-100 py-6 text-center text-sm text-gray-400">
+      <footer className="border-t border-gray-100 py-6 pb-24 lg:pb-6 text-center text-sm text-gray-400">
         © {new Date().getFullYear()} Alfredo Fernandez. All rights reserved.
       </footer>
     </main>

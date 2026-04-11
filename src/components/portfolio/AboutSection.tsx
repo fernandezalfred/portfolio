@@ -39,14 +39,14 @@ export default function AboutSection({ data }: AboutSectionProps) {
   return (
     <section
       id="about"
-      className="relative py-24 sm:py-32 overflow-hidden"
+      className="relative py-20 sm:py-32 overflow-hidden"
     >
       {/* Section background accent */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-green-main/5 rounded-full blur-3xl -translate-y-1/2" />
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-16">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-16">
 
         {/* Stats row */}
         <AnimationWrapper className="mb-20">
@@ -56,7 +56,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
                 key={stat.label}
                 custom={{ duration: 0.8 + index * 0.15 }}
                 variants={fadeUpVariants}
-                className="relative bg-white rounded-2xl border border-gray-100 shadow-sm p-7 flex items-center gap-5 hover:shadow-md hover:border-green-main/30 transition-all duration-300 group"
+                className="relative bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-7 flex items-center gap-4 sm:gap-5 hover:shadow-md hover:border-green-main/30 transition-all duration-300 group"
               >
                 <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-green-main/10 flex items-center justify-center text-2xl group-hover:bg-green-main/20 transition-colors">
                   {stat.icon}
@@ -80,7 +80,7 @@ export default function AboutSection({ data }: AboutSectionProps) {
           <p className="text-green-main text-sm font-semibold uppercase tracking-widest mb-3">
             About Me
           </p>
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
             Why Hire Me For Your Next{" "}
             <span className="text-green-main">Project?</span>
           </h2>
@@ -91,13 +91,13 @@ export default function AboutSection({ data }: AboutSectionProps) {
         </AnimationWrapper>
 
         {/* Image + skills */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 items-center">
           {/* Image */}
           <AnimationWrapper>
             <motion.div variants={fadeUpVariants} className="relative flex justify-center">
               {/* Decorative frame */}
-              <div className="absolute -bottom-4 -right-4 w-48 h-48 bg-green-main/10 rounded-2xl" />
-              <div className="absolute -top-4 -left-4 w-24 h-24 border-2 border-green-main/20 rounded-xl" />
+              <div className="hidden sm:block absolute -bottom-4 -right-4 w-48 h-48 bg-green-main/10 rounded-2xl" />
+              <div className="hidden sm:block absolute -top-4 -left-4 w-24 h-24 border-2 border-green-main/20 rounded-xl" />
               <div className="relative rounded-2xl overflow-hidden shadow-xl border border-gray-100">
                 <Image
                   src={about}

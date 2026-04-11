@@ -54,9 +54,13 @@ const socialIconVariants = {
 
 // To add or remove a social link, update this array and import the icon from react-icons/fa
 const SOCIAL_ICONS = [
-  { id: "twitter",  Icon: FaTwitter,    href: "https://x.com/addier94" },
-  { id: "linkedin", Icon: FaLinkedinIn, href: "https://www.linkedin.com/in/addier94" },
-  { id: "github",   Icon: FaGithub,     href: "https://github.com/fernandezalfred" },
+  { id: "twitter", Icon: FaTwitter, href: "https://x.com/addier94" },
+  {
+    id: "linkedin",
+    Icon: FaLinkedinIn,
+    href: "https://www.linkedin.com/in/addier94",
+  },
+  { id: "github", Icon: FaGithub, href: "https://github.com/fernandezalfred" },
 ];
 
 export default function HomeSection({ data }: HomeSectionProps) {
@@ -68,7 +72,7 @@ export default function HomeSection({ data }: HomeSectionProps) {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden pb-20 lg:pb-0"
     >
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
@@ -85,10 +89,10 @@ export default function HomeSection({ data }: HomeSectionProps) {
         />
       </div>
 
-      <div className="max-w-screen-xl w-full px-6 sm:px-8 lg:px-16 mx-auto pt-28 pb-16">
+      <div className="max-w-screen-xl w-full px-4 sm:px-8 lg:px-16 mx-auto pt-24 sm:pt-28 pb-16">
         <AnimationWrapper>
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 gap-12 lg:gap-20 items-center"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center"
             variants={fadeUpVariants}
           >
             {/* Left: text content */}
@@ -179,7 +183,7 @@ export default function HomeSection({ data }: HomeSectionProps) {
                 {/* Offset shadow block */}
                 <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-2xl bg-green-main/20" />
                 {/* Image container */}
-                <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-2xl overflow-hidden bg-green-main shadow-2xl">
+                <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-2xl overflow-hidden bg-green-main shadow-2xl">
                   <Image
                     src={home}
                     alt="Alfredo Fernandez - Full Stack Web Developer & Designer"
@@ -220,7 +224,7 @@ function Heading({ text }: { text: string }) {
   const HIGHLIGHTED_INDICES = [2, 3]; // e.g. "Hi I'm Alfredo Fernandez" → "Alfredo Fernandez" in green
 
   return (
-    <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight">
+    <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight">
       {words.map((word, index) => (
         <span
           key={index}
