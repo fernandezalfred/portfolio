@@ -1,10 +1,22 @@
 'use client'
 
+/**
+ * Admin editor for portfolio projects.
+ *
+ * Two-section layout:
+ *  1. "Existing Entries" — card grid of all saved projects with a delete button each.
+ *  2. "Add New Project" — form to create a new project via POST /api/projects.
+ *
+ * Deleting a project calls DELETE /api/projects/:id and removes it from the
+ * shared `allData` state so the list updates without a page reload.
+ */
+
 import { useState } from "react"
 import { deleteData } from "@/services/api"
 import FormInput from "@/components/ui/FormInput"
+import { AlertCircleIcon } from "@/components/ui/Icons"
 
-interface ProjectItem {
+export interface ProjectItem {
   _id: string;
   name: string;
   website: string;
@@ -32,10 +44,11 @@ const controls = [
 export default function ProjectEditor({ formData, setFormData, handleSaveData, data, setAllData }: ProjectEditorProps) {
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  const handleDeleteItem = async (id: string) => {
+  const handleDelete = async (id: string) => {
     setDeleteError(null);
     const response = await deleteData('projects', id)
     if (response.success) {
+      // Remove the deleted item from local state without a full refetch
       const updatedData = data?.filter((item) => item._id !== id) ?? []
       setAllData((prevData) => ({ ...prevData, projects: updatedData }))
     } else {
@@ -47,9 +60,7 @@ export default function ProjectEditor({ formData, setFormData, handleSaveData, d
     <div className="space-y-6">
       {deleteError && (
         <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
-          <svg className="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 112 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z" />
-          </svg>
+          <AlertCircleIcon className="mt-0.5 h-4 w-4 shrink-0" />
           {deleteError}
         </div>
       )}
@@ -94,7 +105,7 @@ export default function ProjectEditor({ formData, setFormData, handleSaveData, d
                     </div>
                   </div>
                   <button
-                    onClick={() => handleDeleteItem(item._id)}
+                    onClick={() => handleDelete(item._id)}
                     className="shrink-0 px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-medium rounded-lg transition-colors border border-red-200"
                   >
                     Delete

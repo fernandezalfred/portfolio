@@ -1,15 +1,24 @@
 "use client";
 
+/**
+ * Hero / Home section of the portfolio (first visible section).
+ *
+ * Layout: two-column grid on sm+ screens.
+ *  - Left: heading, summary, CTA buttons ("View My Work" / "Hire Me"), social icons.
+ *  - Right: profile photo with a drag-and-drop interaction (Framer Motion).
+ *
+ * The heading component splits the text into words and highlights specific
+ * word indices (HIGHLIGHTED_INDICES) in green — adjust those indices to change
+ * which words are accented.
+ *
+ * CTA buttons use `react-scroll` to smooth-scroll to named sections (#project, #contact).
+ */
+
 import { useRef } from "react";
 import AnimationWrapper from "@/components/ui/AnimationWrapper";
+import { ChevronDownIcon } from "@/components/ui/Icons";
 import { motion } from "framer-motion";
-import {
-  FaFacebookF,
-  FaLinkedinIn,
-  FaInstagram,
-  FaTwitter,
-  FaGithub,
-} from "react-icons/fa";
+import { FaLinkedinIn, FaTwitter, FaGithub } from "react-icons/fa";
 import { scroller } from "react-scroll";
 import Image from "next/image";
 import home from "@/assets/home.png";
@@ -24,6 +33,7 @@ interface HomeSectionProps {
   data: HomeData[] | null;
 }
 
+// Slides the content grid up from below and fades it in when it enters the viewport
 const fadeUpVariants = {
   offscreen: { y: 60, opacity: 0 },
   onscreen: ({ duration = 1.2 } = {}) => ({
@@ -33,6 +43,7 @@ const fadeUpVariants = {
   }),
 };
 
+// Pop-in entrance + hover lift + tap shrink for each social icon button
 const socialIconVariants = {
   initial: { scale: 0, opacity: 0 },
   animate: { scale: 1, opacity: 1 },
@@ -41,16 +52,15 @@ const socialIconVariants = {
   transition: { type: "spring" as const, damping: 12, stiffness: 200 },
 };
 
+// To add or remove a social link, update this array and import the icon from react-icons/fa
 const SOCIAL_ICONS = [
-  // { id: "facebook",  Icon: FaFacebookF,  href: "#" },
-  { id: "twitter", Icon: FaTwitter, href: "https://x.com/addier94" },
+  { id: "twitter",  Icon: FaTwitter,    href: "https://x.com/addier94" },
   { id: "linkedin", Icon: FaLinkedinIn, href: "https://www.linkedin.com/in/addier94" },
-  { id: "github", Icon: FaGithub, href: "https://github.com/fernandezalfred" },
-  // { id: "instagram", Icon: FaInstagram,  href: "#" },
+  { id: "github",   Icon: FaGithub,     href: "https://github.com/fernandezalfred" },
 ];
 
 export default function HomeSection({ data }: HomeSectionProps) {
-  const dragContainerRef = useRef<HTMLDivElement>(null);
+  const dragContainerRef = useRef<HTMLDivElement>(null); // constrains the draggable photo area
 
   const heading = data?.[0]?.heading ?? "";
   const summary = data?.[0]?.summary ?? "";
@@ -193,28 +203,21 @@ export default function HomeSection({ data }: HomeSectionProps) {
           <p className="text-xs uppercase tracking-widest font-medium">
             Scroll
           </p>
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
+          <ChevronDownIcon />
         </div>
       </div>
     </section>
   );
 }
 
+/**
+ * Splits the heading string into individual words and applies the brand green
+ * color to the words at HIGHLIGHTED_INDICES (0-based).
+ * Change HIGHLIGHTED_INDICES to accent different words without editing the DB text.
+ */
 function Heading({ text }: { text: string }) {
   const words = text.split(" ");
-  const HIGHLIGHTED_INDICES = [2, 3];
+  const HIGHLIGHTED_INDICES = [2, 3]; // e.g. "Hi I'm Alfredo Fernandez" → "Alfredo Fernandez" in green
 
   return (
     <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight">

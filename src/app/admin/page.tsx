@@ -1,15 +1,30 @@
 "use client";
 
+/**
+ * Admin dashboard page (/admin).
+ *
+ * Renders a sidebar nav + a content area that swaps between section editors
+ * (Home, About, Experience, Projects) and the Contact message list.
+ *
+ * Auth guard: reads `authUser` from sessionStorage (written by /login on success).
+ * If absent, immediately redirects to /login — no server-side session needed.
+ *
+ * The active tab is synced to the URL query param `?tab=<id>` so that refreshing
+ * or sharing a link lands on the correct editor.
+ */
+
 import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import AboutEditor from "@/components/admin/AboutEditor";
 import AdminNav from "@/components/admin/AdminNav";
-import ContactList from "@/components/admin/ContactList";
+import ContactList, { ContactItem } from "@/components/admin/ContactList";
 import ExperienceEditor from "@/components/admin/ExperienceEditor";
 import HomeEditor from "@/components/admin/HomeEditor";
-import ProjectEditor from "@/components/admin/ProjectEditor";
+import ProjectEditor, { ProjectItem } from "@/components/admin/ProjectEditor";
 import { useAdminData } from "./useAdminData";
+import { AlertCircleIcon, CheckCircleIcon } from "@/components/ui/Icons";
 
+// `id` must match the keys in `tabContent` below
 const NAV_ITEMS = [
   { id: "home", label: "Home" },
   { id: "about", label: "About Page" },
@@ -18,6 +33,10 @@ const NAV_ITEMS = [
   { id: "contact", label: "Contact" },
 ];
 
+/**
+ * Wraps the real content in <Suspense> because useSearchParams() requires it
+ * when the page is rendered with the Next.js App Router.
+ */
 export default function AdminPage() {
   return (
     <Suspense>
@@ -30,7 +49,7 @@ function AdminPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [currentTab, setCurrentTab] = useState(searchParams.get("tab") ?? "home");
-  const [authUser, setAuthUser] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const {
     homeFormData, setHomeFormData,
@@ -43,37 +62,42 @@ function AdminPageContent() {
     notification,
   } = useAdminData(currentTab);
 
+  // Redirect to login if the session flag is missing (set by /login on success)
   useEffect(() => {
     const isAuth = JSON.parse(sessionStorage.getItem("authUser") ?? "false");
     if (!isAuth) {
       router.push("/login");
     } else {
-      setAuthUser(true);
+      setIsAuthenticated(true);
     }
   }, []);
 
+  // Switches the active editor, syncs the URL, and clears any stale form data
   function handleTabChange(id: string) {
     setCurrentTab(id);
     router.push(`/admin?tab=${id}`);
     resetFormData();
   }
 
+  // Clears the session flag so a page refresh will require logging in again
   function handleLogout() {
     sessionStorage.removeItem("authUser");
     router.push("/login");
   }
 
+  // To add a section: add an entry here and a matching item in NAV_ITEMS
   const tabContent: Record<string, React.ReactNode> = {
     home: <HomeEditor formData={homeFormData} setFormData={setHomeFormData} handleSaveData={handleSaveData} />,
     about: <AboutEditor formData={aboutFormData} setFormData={setAboutFormData} handleSaveData={handleSaveData} />,
     experience: <ExperienceEditor formData={experienceFormData} setFormData={setExperienceFormData} handleSaveData={handleSaveData} />,
-    projects: <ProjectEditor formData={projectFormData} setFormData={setProjectFormData} handleSaveData={handleSaveData} data={allData?.projects as any} setAllData={setAllData} />,
-    contact: <ContactList data={allData?.contact as any} setAllData={setAllData} />,
+    projects: <ProjectEditor formData={projectFormData} setFormData={setProjectFormData} handleSaveData={handleSaveData} data={allData.projects as ProjectItem[]} setAllData={setAllData} />,
+    contact: <ContactList data={allData.contact as ContactItem[]} setAllData={setAllData} />,
   };
 
   const currentNavLabel = NAV_ITEMS.find((item) => item.id === currentTab)?.label ?? currentTab;
 
-  if (!authUser) return null;
+  // Render nothing while auth check is in progress to avoid a flash of content
+  if (!isAuthenticated) return null;
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -87,7 +111,6 @@ function AdminPageContent() {
       {/* Content area — offset by sidebar on desktop, top bar on mobile */}
       <main className="flex-1 lg:ml-64 pt-14 lg:pt-0 min-w-0">
         <div className="p-5 sm:p-8 max-w-4xl mx-auto">
-          {/* Page header */}
           <div className="mb-6 pb-4 border-b border-gray-200">
             <h2 className="text-2xl font-bold text-gray-900">{currentNavLabel}</h2>
             <p className="text-gray-500 text-sm mt-1">Manage your {currentNavLabel.toLowerCase()} content</p>
@@ -102,13 +125,9 @@ function AdminPageContent() {
               }`}
             >
               {notification.type === "success" ? (
-                <svg className="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
-                </svg>
+                <CheckCircleIcon className="mt-0.5 h-4 w-4 shrink-0" />
               ) : (
-                <svg className="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 112 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z" />
-                </svg>
+                <AlertCircleIcon className="mt-0.5 h-4 w-4 shrink-0" />
               )}
               {notification.message}
             </div>

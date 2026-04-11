@@ -1,6 +1,18 @@
 "use client";
 
+/**
+ * Responsive admin sidebar navigation.
+ *
+ * Layout:
+ *  - Desktop (lg+): fixed left sidebar, 256 px wide (w-64).
+ *  - Mobile: fixed top bar with a hamburger button that slides open a drawer.
+ *
+ * The same `navContent` JSX is rendered in both the desktop sidebar and the
+ * mobile drawer so the two stay in sync automatically.
+ */
+
 import { useState } from "react";
+import { CloseIcon, MenuIcon } from "@/components/ui/Icons";
 
 interface MenuItem {
   id: string;
@@ -73,15 +85,7 @@ export default function AdminNav({ items, currentTab, onTabChange, onLogout }: A
           className="text-white p-2 rounded-md hover:bg-gray-700 transition-colors"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
         >
-          {mobileOpen ? (
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          )}
+          {mobileOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
       </header>
 

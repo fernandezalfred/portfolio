@@ -1,9 +1,20 @@
 'use client'
 
+/**
+ * Admin view of submitted contact messages.
+ *
+ * Displays all messages from the database. Each card shows the sender's name,
+ * clickable email (mailto: link), timestamp, and message body.
+ *
+ * Deleting a message calls DELETE /api/contact/:id and then removes it from
+ * the shared `allData` state so the UI updates without a full page reload.
+ */
+
 import { useState } from "react";
 import { deleteData } from "@/services/api";
+import { AlertCircleIcon } from "@/components/ui/Icons";
 
-interface ContactItem {
+export interface ContactItem {
   _id: string;
   name: string;
   email: string;
@@ -25,6 +36,7 @@ export default function ContactList({ data, setAllData }: ContactListProps) {
     setDeleteError(null);
     const response = await deleteData("contact", id);
     if (response.success) {
+      // Remove the deleted item from local state without a full refetch
       const updated = data?.filter((item) => item._id !== id) ?? [];
       setAllData((prev) => ({ ...prev, contact: updated }));
     } else {
@@ -36,9 +48,7 @@ export default function ContactList({ data, setAllData }: ContactListProps) {
     if (deleteError) {
       return (
         <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
-          <svg className="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 112 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z" />
-          </svg>
+          <AlertCircleIcon className="mt-0.5 h-4 w-4 shrink-0" />
           {deleteError}
         </div>
       );
@@ -54,9 +64,7 @@ export default function ContactList({ data, setAllData }: ContactListProps) {
     <div className="space-y-4">
       {deleteError && (
         <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
-          <svg className="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" clipRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 112 0v4a1 1 0 11-2 0V9zm1-4a1 1 0 100 2 1 1 0 000-2z" />
-          </svg>
+          <AlertCircleIcon className="mt-0.5 h-4 w-4 shrink-0" />
           {deleteError}
         </div>
       )}

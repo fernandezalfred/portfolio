@@ -1,6 +1,19 @@
 "use client";
 
+/**
+ * Public "Experience" section of the portfolio.
+ *
+ * Renders a styled card with the experience summary text fetched from the database.
+ * The section is only rendered when `experienceText` is non-null (i.e., data is loaded).
+ *
+ * Visual details:
+ *  - Large decorative quote mark in the card background (aria-hidden).
+ *  - Briefcase icon row with the author's name and title.
+ *  - Bottom accent line with a "Freelance & Personal Projects" label.
+ */
+
 import AnimationWrapper from "@/components/ui/AnimationWrapper";
+import { BriefcaseIcon } from "@/components/ui/Icons";
 
 interface ExperienceSectionProps {
   experienceText: string | null;
@@ -42,7 +55,7 @@ export default function ExperienceSection({ experienceText }: ExperienceSectionP
               {/* Brief icon row */}
               <div className="flex items-center gap-3 mb-8">
                 <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-green-main/10">
-                  <BriefcaseIcon />
+                  <BriefcaseIcon className="w-5 h-5 text-green-main" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-gray-900">Alfredo Fernandez</p>
@@ -70,25 +83,3 @@ export default function ExperienceSection({ experienceText }: ExperienceSectionP
   );
 }
 
-function BriefcaseIcon() {
-  return (
-    <svg
-      className="w-5 h-5 text-green-main"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.8}
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"
-      />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"
-      />
-    </svg>
-  );
-}
